@@ -1,20 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Button, SafeAreaView, Alert } from 'react-native';
+import { requestSmsPermission } from './src/services/smsService';
+import ExpenseList from './src/components/expenseList';
 
 export default function App() {
+  useEffect(() => {
+    async function checkPermission() {
+      const hasPermission = await requestSmsPermission();
+      if (!hasPermission) {
+        Alert.alert('SMS permission is required to read expenses.');
+      }
+    }
+
+    checkPermission();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ padding: 20 }}>
+        <Button title="View All Expenses" onPress={() => {}} />
+      </View>
+      <ExpenseList />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

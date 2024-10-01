@@ -15,10 +15,15 @@
       "supportsTablet": true
     },
     "android": {
+      "permissions": [
+        "READ_SMS",
+        "RECEIVE_SMS"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.malyaj.ExpenseManagerApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

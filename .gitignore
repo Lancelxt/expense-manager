@@ -3,10 +3,15 @@
 # dependencies
 node_modules/
 
+
 # Expo
 .expo/
 dist/
 web-build/
+android/
+ios/
+MBAMSI.log
+package-lock.json
 
 # Native
 *.orig.*
