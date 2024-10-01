@@ -1,32 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { fetchSms } from '../services/smsService';
-import { parseSmsForExpenses } from '../utils/smsParser';
+import React from 'react';
+import { View, Text, FlatList, StyleSheet, ScrollView } from 'react-native';
+import { calcHeight, calcWidth } from '../helper/res';
+import { MaterialIcons } from '@expo/vector-icons';  
 
-const ExpenseList = () => {
-  const [expenses, setExpenses] = useState([]);
+const ExpenseList = ({ expenses }) => {  
+  if (!expenses || expenses.length === 0) {
+    return <Text style={styles.noExpenses}>No expenses found.</Text>;  
+  }
 
-  useEffect(() => {
-    async function loadExpenses() {
-      try {
-        const smsList = await fetchSms();
-        const parsedExpenses = smsList.map((sms) => {
-          return parseSmsForExpenses(sms.body);
-        });
-        setExpenses(parsedExpenses);
-      } catch (error) {
-        console.error('Error fetching SMS: ', error);
-      }
-    }
-
-    loadExpenses();
-  }, []);
+    const formatDate = (dateString) => {
+      const [day, month, year] = dateString.split('/'); 
+      const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+      return `${day} ${monthNames[parseInt(month) - 1]} ${year}`; 
+    };
 
   const renderExpense = ({ item }) => (
     <View style={styles.card}>
+      <MaterialIcons name="payment" size={24} color="white" />
       <Text style={styles.amount}>₹{item.amount}</Text>
-      <Text>{item.description}</Text>
-      <Text>{item.date}</Text>
+      <Text style={styles.description}>{item.description}</Text>
+      <Text style={styles.date}>{formatDate(item.date)}</Text>
     </View>
   );
 
@@ -35,23 +31,42 @@ const ExpenseList = () => {
       data={expenses}
       keyExtractor={(item, index) => index.toString()}
       renderItem={renderExpense}
+      showsVerticalScrollIndicator={false}  
     />
   );
 };
 
 const styles = StyleSheet.create({
+  noExpenses: {
+    color: 'white',
+    fontSize: 16,
+  },
   card: {
-    padding: 10,
-    marginVertical: 8,
-    backgroundColor: '#f9f9f9',
-    borderRadius: 6,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    flexDirection: 'column',
+    gap: calcHeight(0.2),
+    paddingVertical: calcHeight(2),
+    paddingHorizontal: calcWidth(4),
+    marginVertical: calcHeight(1),
+    marginHorizontal: calcHeight(2),
+    backgroundColor: '#333',
+    borderRadius: calcWidth(3.6),
+    borderColor: '#555',
+    borderWidth: calcHeight(0.12),
   },
   amount: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: 'white',
+  },
+  description: {
+    color: 'white',
+    paddingBottom:calcHeight(1.6)
+  },
+  date: {
+    position: 'absolute',
+    right: calcWidth(2),
+    bottom: calcHeight(1),
+    color: 'white',
   },
 });
 

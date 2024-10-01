@@ -1,5 +1,6 @@
 import SmsAndroid from 'react-native-get-sms-android';
 import { PermissionsAndroid } from 'react-native';
+import { parseSmsForExpenses } from '../utils/smsParser';
 
 export const requestSmsPermission = async () => {
   try {
@@ -11,7 +12,7 @@ export const requestSmsPermission = async () => {
         buttonNeutral: 'Ask Me Later',
         buttonNegative: 'Cancel',
         buttonPositive: 'OK',
-      },
+      }
     );
     return granted === PermissionsAndroid.RESULTS.GRANTED;
   } catch (err) {
@@ -24,9 +25,9 @@ export const fetchSms = async () => {
   return new Promise((resolve, reject) => {
     SmsAndroid.list(
       JSON.stringify({
-        box: 'inbox', // 'inbox' to list SMS received
-        indexFrom: 0, // Start from the first message
-        maxCount: 100, // Maximum number of SMS to read
+        box: 'inbox',
+        indexFrom: 0,  
+        maxCount: 500,  
       }),
       (fail) => {
         console.log('Failed with this error: ' + fail);
@@ -36,11 +37,11 @@ export const fetchSms = async () => {
         const parsedList = JSON.parse(smsList);
 
         const expenseMessages = parsedList.filter((message) =>
-          /amount|rs\.|rs|inr/i.test(message.body),
+          /rs\.|inr/i.test(message.body)
         );
 
         resolve(expenseMessages);
-      },
+      }
     );
   });
 };

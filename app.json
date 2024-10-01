@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "ExpenseManagerApp",
-    "slug": "ExpenseManagerApp",
+    "name": "Expense Manager",
+    "slug": "Expense Manager",
+    "displayName": "Expense Manager",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/expense.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -23,7 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.malyaj.ExpenseManagerApp"
+      "package": "com.malyaj.ExpenseManager"
     },
     "web": {
       "favicon": "./assets/favicon.png"
