@@ -21,8 +21,6 @@ export default function App() {
         const parsedExpenses = messages
           .map((sms) => parseSmsForExpenses(sms.body, sms.date))
           .filter((expense) => expense.amount !== "N/A");
-
-
         setExpenses(parsedExpenses); 
       } catch (error) {
         console.error("Error fetching SMS: ", error);
@@ -34,7 +32,11 @@ export default function App() {
   };
 
   useEffect(() => {
-    checkPermissionAndFetchExpenses();
+    checkPermissionAndFetchExpenses(); // Initial fetch
+
+    const interval = setInterval(checkPermissionAndFetchExpenses, 10000); // Poll every 10 seconds
+
+    return () => clearInterval(interval); // Cleanup on unmount
   }, []);
 
   if (loading) {

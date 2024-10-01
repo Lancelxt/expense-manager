@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Expense Manager",
-    "slug": "Expense Manager",
+    "slug": "expense-manager",
     "displayName": "Expense Manager",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -28,6 +28,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "699dbe3d-9557-4a78-a7fd-2f173f4c9cf2"
+      }
     }
   }
 }
